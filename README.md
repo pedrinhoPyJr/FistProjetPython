@@ -1,63 +1,70 @@
-# Importa o módulo random para gerar números aleatórios
-import random
+contatos = []
 
-# Função principal do jogo
-def jogar():
-    # Imprime uma mensagem de boas-vindas
-    print("Bem-vindo ao jogo de adivinhação!")
+while True:
+    print("\n=== MENU ===")
+    print("1 - Adicionar contato")
+    print("2 - Ver contatos")
+    print("3 - Editar contato")
+    print("4 - Marcar/Desmarcar favorito")
+    print("5 - Ver favoritos")
+    print("6 - Apagar contato")
+    print("7 - Sair")
 
-    # Gera um número aleatório entre 1 e 10
-    numero_secreto = random.randint(1, 10)
+    opcao = input("Escolha uma opção: ")
 
-    # Inicializa o número de tentativas
-    tentativas = 0
+    if opcao == "1":
+        nome = input("Nome: ")
+        telefone = input("Telefone: ")
+        email = input("Email: ")
+        contato = {
+            "nome": nome,
+            "telefone": telefone,
+            "email": email,
+            "favorito": False
+        }
+        contatos.append(contato)
+        print("Contato adicionado.")
 
-    # Enquanto o jogador não adivinhar o número
-    while True:
-        # Tenta converter o input do usuário em número inteiro
-        try:
-            chute = int(input("Digite um número entre 1 e 10: "))
-        except ValueError:
-            # Se o jogador digitar algo que não é número, exibe mensagem e continua
-            print("Por favor, digite um número válido.")
-            continue
-
-        # Incrementa o número de tentativas
-        tentativas += 1
-
-        # Verifica se o chute está correto
-        if chute == numero_secreto:
-            print("Parabéns! Você acertou!")
-            break  # Sai do loop
-        elif chute < numero_secreto:
-            print("O número secreto é maior.")
+    elif opcao == "2":
+        if not contatos:
+            print("Nenhum contato.")
         else:
-            print("O número secreto é menor.")
+            for i, c in enumerate(contatos):
+                fav = "*" if c["favorito"] else ""
+                print(f"{i + 1}. {c['nome']} - {c['telefone']} - {c['email']} {fav}")
 
-    # Exibe o total de tentativas
-    print("Número de tentativas:", tentativas)
-
-# Função extra: exibe um menu simples
-def menu():
-    print("\nMenu:")
-    print("1 - Jogar")
-    print("2 - Sair")
-
-# Função principal do programa
-def main():
-    # Estrutura de repetição usando while para manter o programa rodando
-    while True:
-        menu()  # Mostra o menu
-        opcao = input("Escolha uma opção: ")
-
-        # Condicional para verificar a escolha do usuário
-        if opcao == "1":
-            jogar()  # Inicia o jogo
-        elif opcao == "2":
-            print("Saindo do jogo.")
-            break  # Encerra o programa
+    elif opcao == "3":
+        for i, c in enumerate(contatos):
+            print(f"{i + 1}. {c['nome']}")
+        idx = int(input("Número do contato para editar: ")) - 1
+        if 0 <= idx < len(contatos):
+            nome = input("Novo nome: ")
+            telefone = input("Novo telefone: ")
+            email = input("Novo email: ")
+            contatos[idx]["nome"] = nome
+            contatos[idx]["telefone"] = telefone
+            contatos[idx]["email"] = email
+            print("Contato atualizado.")
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Contato inválido.")
 
-# Chama a função principal para iniciar o programa
-main()
+    elif opcao == "4":
+        for i, c in enumerate(contatos):
+            print(f"{i + 1}. {c['nome']}")
+        idx = int(input("Número do contato: ")) - 1
+        if 0 <= idx < len(contatos):
+            contatos[idx]["favorito"] = not contatos[idx]["favorito"]
+            print("Favorito atualizado.")
+        else:
+            print("Contato inválido.")
+
+    elif opcao == "5":
+        for c in contatos:
+            if c["favorito"]:
+                print(f"{c['nome']} - {c['telefone']} - {c['email']} *")
+
+    elif opcao == "6":
+        for i, c in enumerate(contatos):
+            print(f"{i + 1}. {c['nome']}")
+        idx = int(input("Número do contato para apagar: ")) - 1
+        if
